@@ -1,0 +1,19 @@
+# secrets: never commit these
+.env
+*.token
+hf_token*
+
+# python
+.venv/
+__pycache__/
+.pytest_cache/
+
+# training artifacts (large; keep in Drive / Hugging Face instead)
+train/adapter*/
+train/adapter*_ckpt/
+*.safetensors
+*.bin
+train_v*.log
+
+# notebooks can hold outputs and tokens: clear outputs before committing
+.ipynb_checkpoints/
