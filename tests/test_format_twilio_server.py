@@ -237,3 +237,10 @@ def test_appeal_upload_accepts_pdf_and_docx_only():
     docx, headers = _multipart(make_docx("Acme Health Plan. Claim number 55-1234.", "Reason: code CO-50. You must appeal by December 15, 2026."))
     status, data = asgi(app, "POST", "/api/appeal", body=docx, headers=headers)
     assert status == 200 and "Acme Health Plan" in json.loads(data)["letter_text"]
+
+
+def test_favicon_files_are_served():
+    app = create_app(_appeal_svc())
+    for name in ("favicon.ico", "favicon.svg", "favicon.png", "apple-touch-icon.png"):
+        status, data = asgi(app, "GET", "/" + name)
+        assert status == 200 and len(data) > 100, name

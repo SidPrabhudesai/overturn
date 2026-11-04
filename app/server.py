@@ -328,6 +328,14 @@ def create_app(services: Services | None = None) -> Starlette:
             return JSONResponse({"error": "The fact-checking model is unavailable. Please try again."}, status_code=503)
         return JSONResponse(report_to_dict(report))
 
+    def icon_route(name: str, media: str) -> Route:
+        async def icon(request: Request) -> Response:
+            path = SITE_DIR / name
+            if not path.is_file():
+                return Response(status_code=404)
+            return FileResponse(path, media_type=media, headers={"Cache-Control": "public, max-age=3600"})
+        return Route("/" + name, icon)
+
     async def studio_page(request: Request) -> Response:
         path = SITE_DIR / "studio.html"
         if not path.is_file():
@@ -436,6 +444,10 @@ def create_app(services: Services | None = None) -> Starlette:
             Route("/api/check", api_check, methods=["POST"]),
             Route("/appeal", appeal_page),
             Route("/studio", studio_page),
+            icon_route("favicon.ico", "image/x-icon"),
+            icon_route("favicon.svg", "image/svg+xml"),
+            icon_route("favicon.png", "image/png"),
+            icon_route("apple-touch-icon.png", "image/png"),
             Route("/api/appeal", api_appeal, methods=["POST"]),
             Route("/api/samples", api_samples),
             Route("/api/samples/{name}", api_sample),
