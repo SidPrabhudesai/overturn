@@ -16,7 +16,7 @@ from starlette.applications import Starlette
 from starlette.background import BackgroundTask
 from starlette.concurrency import run_in_threadpool
 from starlette.requests import Request
-from starlette.responses import FileResponse, HTMLResponse, JSONResponse, Response
+from starlette.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response
 from starlette.routing import Route
 
 from .appeal import AppealResult, UnsupportedDocument, build_appeal
@@ -308,7 +308,7 @@ def create_app(services: Services | None = None) -> Starlette:
     svc = services or Services()
 
     async def index(request: Request) -> Response:
-        return HTMLResponse(PAGE)
+        return RedirectResponse("/studio", status_code=307)
 
     async def api_check(request: Request) -> Response:
         ip = request.client.host if request.client else "unknown"

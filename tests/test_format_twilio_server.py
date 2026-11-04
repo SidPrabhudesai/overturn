@@ -71,8 +71,8 @@ def post_json(app, payload, **kw):
 
 def test_index_and_health():
     app = create_app(svc())
-    status, html = asgi(app, "GET", "/")
-    assert status == 200 and b"Health claim checker" in html
+    status, _ = asgi(app, "GET", "/")
+    assert status == 307  # the main address opens the denial letter studio
     assert asgi(app, "GET", "/healthz")[0] == 200
 
 
