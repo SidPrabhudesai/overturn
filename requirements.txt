@@ -1,0 +1,8 @@
+requests>=2.31
+beautifulsoup4>=4.12
+python-dotenv>=1.0
+python-multipart>=0.0.9
+starlette>=0.37
+uvicorn>=0.29
+pytest>=8.0
+pypdf>=4

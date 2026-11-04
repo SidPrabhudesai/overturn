@@ -1,0 +1,50 @@
+{"id":"c01","claim":"Smoking causes lung cancer.","label":"supported","topic":"cancer"}
+{"id":"c02","claim":"Washing hands with soap helps reduce the spread of infections.","label":"supported","topic":"hygiene"}
+{"id":"c03","claim":"Measles is highly contagious.","label":"supported","topic":"vaccines"}
+{"id":"c04","claim":"Regular physical activity lowers the risk of heart disease.","label":"supported","topic":"cardiovascular"}
+{"id":"c05","claim":"Sunscreen use can reduce the risk of some skin cancers.","label":"supported","topic":"cancer"}
+{"id":"c06","claim":"The HPV vaccine helps prevent cervical cancer.","label":"supported","topic":"vaccines"}
+{"id":"c07","claim":"Secondhand smoke is harmful to non-smokers.","label":"supported","topic":"cancer"}
+{"id":"c08","claim":"Taking folic acid before and during early pregnancy reduces the risk of neural tube defects.","label":"supported","topic":"pregnancy"}
+{"id":"c09","claim":"Overusing antibiotics contributes to antibiotic resistance.","label":"supported","topic":"infection"}
+{"id":"c10","claim":"Weight loss can lead to remission of type 2 diabetes in some people.","label":"supported","topic":"nutrition"}
+{"id":"c11","claim":"High blood pressure often has no noticeable symptoms.","label":"supported","topic":"cardiovascular"}
+{"id":"c12","claim":"The MMR vaccine is effective at preventing measles.","label":"supported","topic":"vaccines"}
+{"id":"c13","claim":"Smoking raises the risk of heart disease.","label":"supported","topic":"cardiovascular"}
+{"id":"c14","claim":"Mosquitoes can transmit malaria.","label":"supported","topic":"infection"}
+{"id":"c15","claim":"Naloxone can reverse an opioid overdose.","label":"supported","topic":"substance use"}
+{"id":"c16","claim":"Tuberculosis can spread through the air when a person with active TB disease coughs.","label":"supported","topic":"infection"}
+{"id":"c17","claim":"Vaccination can indirectly protect people who cannot be vaccinated through herd immunity.","label":"supported","topic":"vaccines"}
+{"id":"c18","claim":"Regular screening can detect colorectal cancer early.","label":"supported","topic":"cancer"}
+{"id":"c19","claim":"Condoms reduce the risk of HIV transmission.","label":"supported","topic":"infection"}
+{"id":"c20","claim":"Eating too much salt is linked to high blood pressure.","label":"supported","topic":"nutrition"}
+{"id":"c21","claim":"Vaccines cause autism.","label":"contradicted","topic":"vaccines"}
+{"id":"c22","claim":"5G networks spread COVID-19.","label":"contradicted","topic":"covid"}
+{"id":"c23","claim":"Drinking bleach can cure COVID-19.","label":"contradicted","topic":"covid"}
+{"id":"c24","claim":"Antibiotics are effective against the common cold.","label":"contradicted","topic":"infection"}
+{"id":"c25","claim":"Cancer is contagious like the flu.","label":"contradicted","topic":"cancer"}
+{"id":"c26","claim":"Cracking your knuckles causes arthritis.","label":"contradicted","topic":"musculoskeletal"}
+{"id":"c27","claim":"Sugar makes children hyperactive.","label":"contradicted","topic":"nutrition"}
+{"id":"c28","claim":"The flu shot can give you the flu.","label":"contradicted","topic":"vaccines"}
+{"id":"c29","claim":"Shaving makes hair grow back thicker.","label":"contradicted","topic":"skin"}
+{"id":"c30","claim":"HIV can be transmitted by mosquito bites.","label":"contradicted","topic":"infection"}
+{"id":"c31","claim":"Vitamin C supplements prevent the common cold in the general population.","label":"contradicted","topic":"nutrition"}
+{"id":"c32","claim":"Natural supplements are always safe because they are natural.","label":"contradicted","topic":"supplements"}
+{"id":"c33","claim":"Reading in dim light permanently damages your eyes.","label":"contradicted","topic":"eyes"}
+{"id":"c34","claim":"COVID-19 vaccines alter your DNA.","label":"contradicted","topic":"covid"}
+{"id":"c35","claim":"Using a microwave oven makes food radioactive.","label":"contradicted","topic":"nutrition"}
+{"id":"c36","claim":"Eating garlic can cure a COVID-19 infection.","label":"contradicted","topic":"covid"}
+{"id":"c37","claim":"Taking a hot bath prevents COVID-19.","label":"contradicted","topic":"covid"}
+{"id":"c38","claim":"Mosquito bites spread COVID-19.","label":"contradicted","topic":"covid"}
+{"id":"c39","claim":"Herbal tea can cure cancer.","label":"contradicted","topic":"cancer"}
+{"id":"c40","claim":"Drinking alcohol kills the coronavirus in your body.","label":"contradicted","topic":"covid"}
+{"id":"c41","claim":"Everyone needs exactly eight glasses of water a day.","label":"misleading","topic":"nutrition"}
+{"id":"c42","claim":"Vaccines contain mercury.","label":"misleading","topic":"vaccines"}
+{"id":"c43","claim":"Everyone should take a daily aspirin to prevent heart attacks.","label":"misleading","topic":"cardiovascular"}
+{"id":"c44","claim":"Eggs are bad for your heart, so nobody should eat them.","label":"misleading","topic":"nutrition"}
+{"id":"c45","claim":"Gluten is harmful to everyone.","label":"misleading","topic":"nutrition"}
+{"id":"c46","claim":"All fats are bad for you.","label":"misleading","topic":"nutrition"}
+{"id":"c47","claim":"Honey is healthier than sugar, so you can eat as much of it as you like.","label":"misleading","topic":"nutrition"}
+{"id":"c48","claim":"Exercise alone is enough to lose a lot of weight without changing your diet.","label":"misleading","topic":"nutrition"}
+{"id":"c49","claim":"Taking vitamin pills can replace a healthy diet.","label":"misleading","topic":"supplements"}
+{"id":"c50","claim":"Cholesterol is always bad for you.","label":"misleading","topic":"cardiovascular"}

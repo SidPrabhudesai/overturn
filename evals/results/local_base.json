@@ -1,0 +1,48 @@
+{
+ "model": "meta-llama/Llama-3.2-1B-Instruct",
+ "adapter": null,
+ "ood": {
+  "unguarded": {
+   "n": 200,
+   "payer": 0.0,
+   "claim": 0.0,
+   "code": 1.0,
+   "deadline_ok": 10.0,
+   "deadline_hallucinated": 0.0,
+   "all_correct": 0.0,
+   "unparseable_output": 60
+  },
+  "guarded": {
+   "n": 200,
+   "payer": 0.0,
+   "claim": 0.0,
+   "code": 0.0,
+   "deadline_ok": 10.0,
+   "deadline_hallucinated": 0.0,
+   "all_correct": 0.0,
+   "unparseable_output": 60
+  }
+ },
+ "eval": {
+  "unguarded": {
+   "n": 22,
+   "payer": 0.0,
+   "claim": 0.0,
+   "code": 9.1,
+   "deadline_ok": 18.2,
+   "deadline_hallucinated": 0.0,
+   "all_correct": 0.0,
+   "unparseable_output": 2
+  },
+  "guarded": {
+   "n": 22,
+   "payer": 0.0,
+   "claim": 0.0,
+   "code": 9.1,
+   "deadline_ok": 18.2,
+   "deadline_hallucinated": 0.0,
+   "all_correct": 0.0,
+   "unparseable_output": 2
+  }
+ }
+}

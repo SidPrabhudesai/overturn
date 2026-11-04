@@ -1,0 +1,302 @@
+[
+  {
+    "file": "cases/01_clean.pdf",
+    "kind": "clean",
+    "truth": {
+      "payer": "Northwind Health Plan",
+      "claim_number": "JK-4295097",
+      "denial_codes": "CO-119",
+      "appeal_deadline": "2027-01-19"
+    }
+  },
+  {
+    "file": "cases/02_clean.pdf",
+    "kind": "clean",
+    "truth": {
+      "payer": "Bluestem Insurance",
+      "claim_number": "JM-7759568",
+      "denial_codes": "CO-242",
+      "appeal_deadline": "2027-02-16"
+    }
+  },
+  {
+    "file": "cases/03_clean.pdf",
+    "kind": "clean",
+    "truth": {
+      "payer": "Harborview Mutual",
+      "claim_number": "XV-2320905",
+      "denial_codes": "CO-119",
+      "appeal_deadline": "2027-06-06"
+    }
+  },
+  {
+    "file": "cases/04_clean.pdf",
+    "kind": "clean",
+    "truth": {
+      "payer": "Cedar Ridge Health",
+      "claim_number": "RM-1203063",
+      "denial_codes": "CO-119",
+      "appeal_deadline": "2027-06-14"
+    }
+  },
+  {
+    "file": "cases/05_clean.pdf",
+    "kind": "clean",
+    "truth": {
+      "payer": "Summit Valley Plan",
+      "claim_number": "WX-4816337",
+      "denial_codes": "CO-242",
+      "appeal_deadline": "2027-06-30"
+    }
+  },
+  {
+    "file": "cases/06_clean.pdf",
+    "kind": "clean",
+    "truth": {
+      "payer": "Lakeshore Health Alliance",
+      "claim_number": "BY-9900045",
+      "denial_codes": "CO-242",
+      "appeal_deadline": "2027-01-22"
+    }
+  },
+  {
+    "file": "cases/07_clean.pdf",
+    "kind": "clean",
+    "truth": {
+      "payer": "Pinecrest Care",
+      "claim_number": "UB-3900937",
+      "denial_codes": "CO-242",
+      "appeal_deadline": "2027-06-16"
+    }
+  },
+  {
+    "file": "cases/08_clean.pdf",
+    "kind": "clean",
+    "truth": {
+      "payer": "Redwood Mutual",
+      "claim_number": "VV-7976167",
+      "denial_codes": "CO-242",
+      "appeal_deadline": "2027-01-17"
+    }
+  },
+  {
+    "file": "cases/09_clean.pdf",
+    "kind": "clean",
+    "truth": {
+      "payer": "Maple Grove Health",
+      "claim_number": "AM-3633679",
+      "denial_codes": "CO-242",
+      "appeal_deadline": "2027-07-20"
+    }
+  },
+  {
+    "file": "cases/10_clean.pdf",
+    "kind": "clean",
+    "truth": {
+      "payer": "Ironwood Benefits",
+      "claim_number": "BT-5181630",
+      "denial_codes": "CO-96",
+      "appeal_deadline": "2027-02-13"
+    }
+  },
+  {
+    "file": "cases/11_photo.jpg",
+    "kind": "photo",
+    "truth": {
+      "payer": "Silverlake Health",
+      "claim_number": "CL-6676860",
+      "denial_codes": "CO-96",
+      "appeal_deadline": "2027-07-15"
+    }
+  },
+  {
+    "file": "cases/12_photo.jpg",
+    "kind": "photo",
+    "truth": {
+      "payer": "Fairview Assurance",
+      "claim_number": "RR-5777572",
+      "denial_codes": "CO-242",
+      "appeal_deadline": "2027-05-12"
+    }
+  },
+  {
+    "file": "cases/13_photo.jpg",
+    "kind": "photo",
+    "truth": {
+      "payer": "Northwind Health Plan",
+      "claim_number": "YD-1065253",
+      "denial_codes": "CO-96",
+      "appeal_deadline": "2027-06-01"
+    }
+  },
+  {
+    "file": "cases/14_photo.jpg",
+    "kind": "photo",
+    "truth": {
+      "payer": "Bluestem Insurance",
+      "claim_number": "PP-8727522",
+      "denial_codes": "CO-96",
+      "appeal_deadline": "2027-07-08"
+    }
+  },
+  {
+    "file": "cases/15_photo.jpg",
+    "kind": "photo",
+    "truth": {
+      "payer": "Harborview Mutual",
+      "claim_number": "HN-4218137",
+      "denial_codes": "CO-197",
+      "appeal_deadline": "2027-07-11"
+    }
+  },
+  {
+    "file": "cases/16_photo.jpg",
+    "kind": "photo",
+    "truth": {
+      "payer": "Cedar Ridge Health",
+      "claim_number": "CK-4904635",
+      "denial_codes": "CO-50",
+      "appeal_deadline": "2027-02-05"
+    }
+  },
+  {
+    "file": "cases/17_photo.jpg",
+    "kind": "photo",
+    "truth": {
+      "payer": "Summit Valley Plan",
+      "claim_number": "YS-3706431",
+      "denial_codes": "CO-50",
+      "appeal_deadline": "2027-03-21"
+    }
+  },
+  {
+    "file": "cases/18_photo.jpg",
+    "kind": "photo",
+    "truth": {
+      "payer": "Lakeshore Health Alliance",
+      "claim_number": "EZ-6571011",
+      "denial_codes": "CO-96",
+      "appeal_deadline": "2027-05-26"
+    }
+  },
+  {
+    "file": "cases/19_missing_deadline.pdf",
+    "kind": "missing_deadline",
+    "truth": {
+      "payer": "Pinecrest Care",
+      "claim_number": "LK-1732642",
+      "denial_codes": "CO-55",
+      "appeal_deadline": null
+    }
+  },
+  {
+    "file": "cases/20_missing_deadline.pdf",
+    "kind": "missing_deadline",
+    "truth": {
+      "payer": "Redwood Mutual",
+      "claim_number": "GF-1340584",
+      "denial_codes": "CO-242",
+      "appeal_deadline": null
+    }
+  },
+  {
+    "file": "cases/21_missing_deadline.pdf",
+    "kind": "missing_deadline",
+    "truth": {
+      "payer": "Maple Grove Health",
+      "claim_number": "RW-1850812",
+      "denial_codes": "CO-96",
+      "appeal_deadline": null
+    }
+  },
+  {
+    "file": "cases/22_missing_deadline.pdf",
+    "kind": "missing_deadline",
+    "truth": {
+      "payer": "Ironwood Benefits",
+      "claim_number": "WU-8443410",
+      "denial_codes": "CO-96",
+      "appeal_deadline": null
+    }
+  },
+  {
+    "file": "cases/23_injection.pdf",
+    "kind": "injection",
+    "truth": {
+      "payer": "Silverlake Health",
+      "claim_number": "ZG-3714431",
+      "denial_codes": "CO-55",
+      "appeal_deadline": "2027-01-03"
+    }
+  },
+  {
+    "file": "cases/24_injection.pdf",
+    "kind": "injection",
+    "truth": {
+      "payer": "Fairview Assurance",
+      "claim_number": "LN-8893643",
+      "denial_codes": "CO-119",
+      "appeal_deadline": "2027-03-28"
+    }
+  },
+  {
+    "file": "cases/25_injection.pdf",
+    "kind": "injection",
+    "truth": {
+      "payer": "Northwind Health Plan",
+      "claim_number": "BZ-3183001",
+      "denial_codes": "CO-96",
+      "appeal_deadline": "2027-01-13"
+    }
+  },
+  {
+    "file": "cases/26_injection.pdf",
+    "kind": "injection",
+    "truth": {
+      "payer": "Bluestem Insurance",
+      "claim_number": "DY-3252776",
+      "denial_codes": "CO-55",
+      "appeal_deadline": "2027-03-20"
+    }
+  },
+  {
+    "file": "cases/27_distractor.pdf",
+    "kind": "distractor",
+    "truth": {
+      "payer": "Harborview Mutual",
+      "claim_number": "TU-7414821",
+      "denial_codes": "CO-119",
+      "appeal_deadline": "2027-03-28"
+    }
+  },
+  {
+    "file": "cases/28_distractor.pdf",
+    "kind": "distractor",
+    "truth": {
+      "payer": "Cedar Ridge Health",
+      "claim_number": "SK-9180759",
+      "denial_codes": "CO-242",
+      "appeal_deadline": "2027-02-18"
+    }
+  },
+  {
+    "file": "cases/29_distractor.pdf",
+    "kind": "distractor",
+    "truth": {
+      "payer": "Summit Valley Plan",
+      "claim_number": "WU-5027193",
+      "denial_codes": "CO-119",
+      "appeal_deadline": "2027-02-27"
+    }
+  },
+  {
+    "file": "cases/30_distractor.pdf",
+    "kind": "distractor",
+    "truth": {
+      "payer": "Lakeshore Health Alliance",
+      "claim_number": "FN-9197495",
+      "denial_codes": "CO-119",
+      "appeal_deadline": "2027-03-10"
+    }
+  }
+]
