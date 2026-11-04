@@ -59,6 +59,59 @@ def document_part(data: bytes) -> dict[str, Any]:
     return {"type": "image_url", "image_url": {"url": uri}}
 
 
+MAX_DOCX_XML_BYTES = 5_000_000
+
+
+def is_docx(data: bytes) -> bool:
+    """A Word .docx file: a zip archive that contains word/document.xml."""
+    if not data.startswith(b"PK"):
+        return False
+    try:
+        import io
+        import zipfile
+
+        with zipfile.ZipFile(io.BytesIO(data)) as z:
+            return "word/document.xml" in z.namelist()
+    except Exception:  # noqa: BLE001 - untrusted input
+        return False
+
+
+def docx_text(data: bytes) -> str:
+    """The text of a .docx, read with plain string handling (no XML parser, so no entity tricks)."""
+    import html
+    import io
+    import zipfile
+
+    try:
+        with zipfile.ZipFile(io.BytesIO(data)) as z:
+            info = z.getinfo("word/document.xml")
+            if info.file_size > MAX_DOCX_XML_BYTES:
+                raise UnsupportedDocument("That Word file is too large to read.")
+            xml = z.read("word/document.xml").decode("utf-8", "replace")
+    except UnsupportedDocument:
+        raise
+    except Exception as exc:  # noqa: BLE001
+        raise UnsupportedDocument("I couldn't open that Word file. Try saving it again as .docx or a PDF.") from exc
+    xml = re.sub(r"</w:p>", "\n", xml)
+    xml = re.sub(r"<w:tab\s*/>", "\t", xml)
+    xml = re.sub(r"<w:br[^>]*/>", "\n", xml)
+    text = html.unescape(re.sub(r"<[^>]+>", "", xml))
+    return re.sub(r"\n{3,}", "\n\n", text).strip()
+
+
+def read_document(llm: "TextLLM", data: bytes) -> tuple[str, str | None]:
+    """(text of the document, the file's own text layer if it has one). A .docx already is text, so no model reads it."""
+    if is_docx(data):
+        if len(data) > MAX_DOC_BYTES:
+            raise UnsupportedDocument("File is empty or larger than 8 MB.")
+        return docx_text(data), None
+    text = llm.complete_text(TRANSCRIBE_SYSTEM, [
+        {"type": "text", "text": "Transcribe this document."},
+        document_part(data),
+    ])
+    return text, pdf_text_layer(data)
+
+
 MAX_LAYER_PAGES = 10
 MIN_LAYER_CHARS = 40
 
@@ -392,28 +445,21 @@ def _passages_block(passages: list[Passage]) -> str:
 def build_appeal(llm: TextLLM, retriever: Retriever, data: bytes, eob: bytes | None = None,
                  today: date | None = None, guard: bool = True, verify: bool = True) -> AppealResult:
     """guard/verify=False exist only so the eval can measure what each safeguard buys. Production uses both."""
-    transcript = llm.complete_text(TRANSCRIBE_SYSTEM, [
-        {"type": "text", "text": "Transcribe this document."},
-        document_part(data),
-    ])
+    transcript, layer = read_document(llm, data)
     if len(_norm(transcript)) < 20:
         raise UnsupportedDocument("I couldn't read any text in that file. Try a clearer photo or a PDF.")
 
-    layer = pdf_text_layer(data)
     raw = llm.complete_json(EXTRACT_SYSTEM, f"<letter>\n{transcript[:12000]}\n</letter>")
     facts, not_found = verify_facts(raw, transcript, FIELDS, guard, source=layer)
 
     eob_facts = None
     mismatches: tuple[Mismatch, ...] = ()
     if eob is not None:
-        t2 = llm.complete_text(TRANSCRIBE_SYSTEM, [
-            {"type": "text", "text": "Transcribe this document."},
-            document_part(eob),
-        ])
+        t2, layer2 = read_document(llm, eob)
         if len(_norm(t2)) < 20:
             raise UnsupportedDocument("I couldn't read any text in the second document.")
         raw2 = llm.complete_json(EOB_EXTRACT_SYSTEM, f"<letter>\n{t2[:12000]}\n</letter>")
-        eob_facts, _ = verify_facts(raw2, t2, EOB_FIELDS, guard, source=pdf_text_layer(eob))
+        eob_facts, _ = verify_facts(raw2, t2, EOB_FIELDS, guard, source=layer2)
         mismatches = cross_check(facts, eob_facts)
 
     reason = facts["denial_reason"].value if "denial_reason" in facts else ""
@@ -446,6 +492,6 @@ def build_appeal(llm: TextLLM, retriever: Retriever, data: bytes, eob: bytes | N
         deadline_text=deadline_text, deadline_iso=iso, days_left=left, urgency=urgency,
         checklist_kind=kind, checklist=tips, mismatches=mismatches, eob_facts=eob_facts,
         suspicious=bool(injection_lines(transcript) or (layer and injection_lines(layer))),
-        verified_against="pdf_text_layer" if layer else "model_transcript",
+        verified_against="docx_text" if is_docx(data) else ("pdf_text_layer" if layer else "model_transcript"),
         transcript=transcript,
     )

@@ -19,7 +19,7 @@ from starlette.requests import Request
 from starlette.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response
 from starlette.routing import Route
 
-from .appeal import AppealResult, UnsupportedDocument, build_appeal
+from .appeal import AppealResult, UnsupportedDocument, build_appeal, is_docx
 from .batch import MAX_FILES, review_flags, run_batch, summary_row, to_csv
 from .config import Settings, load_settings
 from .format import HELP, format_report
@@ -348,6 +348,9 @@ def create_app(services: Services | None = None) -> Starlette:
             eob = (await eob_up.read() if hasattr(eob_up, "read") else b"") or None
         except Exception:
             return JSONResponse({"error": "Upload a file in the 'file' field."}, status_code=400)
+        for blob in (data, eob):
+            if blob and not (blob.startswith(b"%PDF") or is_docx(blob)):
+                return JSONResponse({"error": "Upload a PDF or a Word (.docx) file."}, status_code=400)
         try:
             result = await run_in_threadpool(svc.appeal, data, eob)
         except UnsupportedDocument as exc:

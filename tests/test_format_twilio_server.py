@@ -225,4 +225,15 @@ def test_appeal_response_includes_letter_text_and_studio_page_is_served():
     out = json.loads(asgi(app, "POST", "/api/appeal", body=body, headers=headers)[1])
     assert isinstance(out["letter_text"], str) and "Acme Health Plan" in out["letter_text"]
     status, page = asgi(app, "GET", "/studio")
-    assert status == 200 and b"Denial Letter Helper" in page
+    assert status == 200 and b"Overturn" in page
+
+
+def test_appeal_upload_accepts_pdf_and_docx_only():
+    from tests.test_appeal import make_docx
+
+    app = create_app(_appeal_svc())
+    png, headers = _multipart(b"\x89PNG\r\n\x1a\nxxxx")
+    assert asgi(app, "POST", "/api/appeal", body=png, headers=headers)[0] == 400
+    docx, headers = _multipart(make_docx("Acme Health Plan. Claim number 55-1234.", "Reason: code CO-50. You must appeal by December 15, 2026."))
+    status, data = asgi(app, "POST", "/api/appeal", body=docx, headers=headers)
+    assert status == 200 and "Acme Health Plan" in json.loads(data)["letter_text"]

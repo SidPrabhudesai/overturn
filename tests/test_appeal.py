@@ -135,3 +135,29 @@ def test_retrieval_query_uses_the_verified_denial_reason():
     retr = FakeRetriever([gov()])
     build_appeal(AppealLLM(facts=facts), retr, PDF)
     assert "not medically necessary" in retr.queries[0] and "appeal" in retr.queries[0]
+
+
+def make_docx(*paragraphs):
+    import io
+    import zipfile
+
+    body = "".join(f"<w:p><w:r><w:t>{p}</w:t></w:r></w:p>" for p in paragraphs)
+    xml = ('<?xml version="1.0" encoding="UTF-8"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+           f"<w:body>{body}</w:body></w:document>")
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as z:
+        z.writestr("word/document.xml", xml)
+    return buf.getvalue()
+
+
+def test_docx_is_read_as_text_without_asking_the_model_to_transcribe_it():
+    docx = make_docx("Acme Health Plan. Claim number 55-1234.", "Reason: not medically necessary (code CO-50). You must appeal by December 15, 2026.")
+    assert appeal.is_docx(docx) and not appeal.is_docx(PDF)
+    llm = AppealLLM()
+    r = build_appeal(llm, FakeRetriever([gov()]), docx)
+    assert llm.text_calls == []  # nothing was sent for transcription
+    assert r.facts["payer"].quote == "Acme Health Plan" and r.verified_against == "docx_text" and "Claim number 55-1234" in r.transcript
+
+
+def test_docx_text_ignores_markup_and_entities():
+    assert appeal.docx_text(make_docx("A &amp; B", "C")) == "A & B\nC"

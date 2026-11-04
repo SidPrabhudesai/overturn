@@ -1,4 +1,4 @@
-# Denial Letter Helper: understand a health-insurance denial and draft your appeal
+# Overturn: understand a health-insurance denial and draft your appeal
 
 Health insurers deny claims every day, and the letter that explains why is written for a billing system, not a person. It buries the one date that matters, the appeal deadline, next to a pile of other dates. Miss it and you lose the right to appeal.
 
