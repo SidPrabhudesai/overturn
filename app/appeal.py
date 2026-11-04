@@ -163,6 +163,7 @@ class AppealResult:
     eob_facts: dict[str, Fact] | None = None
     suspicious: bool = False        # the document contains text that looks like instructions to an AI
     verified_against: str = "model_transcript"   # or "pdf_text_layer": quotes were also found in the file's own text
+    transcript: str = ""            # the letter's text as read, so a UI can show each quote in place
 
 
 _NORM = re.compile(r"[^a-z0-9]+")
@@ -446,4 +447,5 @@ def build_appeal(llm: TextLLM, retriever: Retriever, data: bytes, eob: bytes | N
         checklist_kind=kind, checklist=tips, mismatches=mismatches, eob_facts=eob_facts,
         suspicious=bool(injection_lines(transcript) or (layer and injection_lines(layer))),
         verified_against="pdf_text_layer" if layer else "model_transcript",
+        transcript=transcript,
     )

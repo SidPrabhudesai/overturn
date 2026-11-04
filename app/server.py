@@ -31,6 +31,7 @@ from .twilio_utils import EMPTY_TWIML, send_whatsapp, twiml_message, valid_signa
 log = logging.getLogger("healthcheck")
 
 SAMPLES_DIR = Path(__file__).resolve().parent.parent / "samples"
+SITE_DIR = Path(__file__).resolve().parent.parent / "site"
 RATE_LIMIT = 10  # messages
 RATE_WINDOW = 600  # seconds
 
@@ -135,6 +136,7 @@ def appeal_to_dict(r: AppealResult) -> dict[str, Any]:
         "has_eob": r.eob_facts is not None,
         "suspicious": r.suspicious,
         "verified_against": r.verified_against,
+        "letter_text": r.transcript,
         "trust": {
             "facts_proposed": r.facts_proposed, "facts_kept": len(r.facts),
             "rights_proposed": r.rights_proposed, "rights_after_citation_check": r.rights_after_citation_guard,
@@ -326,6 +328,12 @@ def create_app(services: Services | None = None) -> Starlette:
             return JSONResponse({"error": "The fact-checking model is unavailable. Please try again."}, status_code=503)
         return JSONResponse(report_to_dict(report))
 
+    async def studio_page(request: Request) -> Response:
+        path = SITE_DIR / "studio.html"
+        if not path.is_file():
+            return JSONResponse({"error": "Studio page not found."}, status_code=404)
+        return FileResponse(path, media_type="text/html")
+
     async def appeal_page(request: Request) -> Response:
         return HTMLResponse(APPEAL_PAGE)
 
@@ -424,6 +432,7 @@ def create_app(services: Services | None = None) -> Starlette:
             Route("/", index),
             Route("/api/check", api_check, methods=["POST"]),
             Route("/appeal", appeal_page),
+            Route("/studio", studio_page),
             Route("/api/appeal", api_appeal, methods=["POST"]),
             Route("/api/samples", api_samples),
             Route("/api/samples/{name}", api_sample),

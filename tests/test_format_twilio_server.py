@@ -217,3 +217,12 @@ def test_appeal_with_eob_upload_sets_has_eob():
 
 def test_appeal_page_never_uses_innerhtml():
     assert "innerHTML" not in server.APPEAL_PAGE and "insertAdjacentHTML" not in server.APPEAL_PAGE
+
+
+def test_appeal_response_includes_letter_text_and_studio_page_is_served():
+    app = create_app(_appeal_svc())
+    body, headers = _multipart(b"%PDF-1.4 x")
+    out = json.loads(asgi(app, "POST", "/api/appeal", body=body, headers=headers)[1])
+    assert isinstance(out["letter_text"], str) and "Acme Health Plan" in out["letter_text"]
+    status, page = asgi(app, "GET", "/studio")
+    assert status == 200 and b"Denial Letter Helper" in page
