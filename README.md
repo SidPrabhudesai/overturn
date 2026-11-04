@@ -2,7 +2,7 @@
 
 Health insurers deny claims every day, and the letter that explains why is written for a billing system, not a person. It buries the one date that matters, the appeal deadline, next to a pile of other dates. Miss it and you lose the right to appeal.
 
-This project turns a photo or PDF of a denial letter into three things a person can act on:
+This project turns a PDF or Word file of a denial letter into three things a person can act on:
 
 1. The facts that matter, each tied to the exact words in the letter: payer, claim number, denial code, reason, and appeal deadline.
 2. A plain-language explanation of why the claim was denied.
@@ -16,7 +16,7 @@ It never guesses. If the letter doesn't state a deadline, the answer is "not sta
 
 ## How it works
 
-- **Document input.** A letter can arrive as a PDF or a photo. Text is read through the Meta Model API.
+- **Document input.** A letter can arrive as a PDF or a Word (.docx) file. PDFs are read through the Meta Model API; Word files are read directly as text.
 - **Fact extraction.** A small Llama model, Llama-3.2-1B-Instruct, fine-tuned with LoRA, returns a JSON object of facts. Every fact carries a quote copied from the letter.
 - **Guard.** A checker rejects any fact whose quote does not appear in the letter, so the model cannot add a date or a payer that isn't there. In practice this means an abstain (no deadline reported) instead of a wrong answer.
 - **Appeal draft.** A second step writes the appeal using only the verified facts.
@@ -44,7 +44,7 @@ Limits you should know about:
 
 - Training data is synthetic and templated. The held-out sets change payers and phrasing, but they are still the same family of letters.
 - Ten fresh letters is a small test. Each letter is worth ten percentage points.
-- Photos depend on the text-reading step; the fine-tuned model itself only sees text.
+- Scanned PDFs depend on the text-reading step; the fine-tuned model itself only sees text.
 
 ## Run it
 
@@ -61,8 +61,12 @@ Try it on a sample letter:
 ```bash
 python scripts/make_samples.py                      # 6 fictional denial letters in samples/
 python scripts/appeal_cli.py samples/mri_not_necessary.pdf
-uvicorn app.server:app --port 8000                  # web app: /appeal (one letter) and /batch (up to 20)
+uvicorn app.server:app --port 8000                  # web app
 ```
+
+Then open `http://localhost:8000`. It opens the Overturn studio. Drag a PDF or Word (.docx) letter onto the page, or use **Upload a letter**. The older pages are still there: `/appeal` (one letter) and `/batch` (up to 20).
+
+**API key.** Reading a letter calls the Meta Model API, so uploads need your own key in `.env` as `MODEL_API_KEY` (create one at dev.meta.ai/api-keys). No key is included in this repo. Without a key the studio still opens and the six built-in sample letters work, but uploading a file shows "The model is unavailable."
 
 ### Reproduce the fine-tune (free Colab T4 GPU)
 
