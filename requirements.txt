@@ -6,3 +6,5 @@ starlette>=0.37
 uvicorn>=0.29
 pytest>=8.0
 pypdf>=4
+python-docx>=1.1
+reportlab>=4

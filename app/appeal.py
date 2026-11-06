@@ -17,6 +17,7 @@ from datetime import date, datetime
 from typing import Any, Protocol
 
 from .config import is_trusted_url
+from .phi import phi_kinds, phi_message
 from .retrieval import Passage, Retriever, tokenize
 
 MAX_DOC_BYTES = 8 * 1024 * 1024
@@ -33,6 +34,14 @@ class TextLLM(Protocol):
 
 class UnsupportedDocument(ValueError):
     pass
+
+
+class PHIDetected(UnsupportedDocument):
+    """Raised in strict mode, before any model sees the file, when it still holds personal details."""
+
+    def __init__(self, kinds: tuple[str, ...]):
+        super().__init__(phi_message(kinds))
+        self.kinds = kinds
 
 
 def sniff_mime(data: bytes) -> str:
@@ -217,6 +226,7 @@ class AppealResult:
     suspicious: bool = False        # the document contains text that looks like instructions to an AI
     verified_against: str = "model_transcript"   # or "pdf_text_layer": quotes were also found in the file's own text
     transcript: str = ""            # the letter's text as read, so a UI can show each quote in place
+    phi_flags: tuple[str, ...] = () # kinds of personal detail still visible in the letter (never the values)
 
 
 _NORM = re.compile(r"[^a-z0-9]+")
@@ -443,8 +453,18 @@ def _passages_block(passages: list[Passage]) -> str:
 
 
 def build_appeal(llm: TextLLM, retriever: Retriever, data: bytes, eob: bytes | None = None,
-                 today: date | None = None, guard: bool = True, verify: bool = True) -> AppealResult:
-    """guard/verify=False exist only so the eval can measure what each safeguard buys. Production uses both."""
+                 today: date | None = None, guard: bool = True, verify: bool = True,
+                 strict_phi: bool = False) -> AppealResult:
+    """guard/verify=False exist only so the eval can measure what each safeguard buys. Production uses both.
+
+    strict_phi=True refuses a PDF or Word file that still shows labelled personal details (member ID, date of birth,
+    SSN, patient name), BEFORE any model reads it. Scans and photos have no local text, so those are checked after
+    transcription and reported in `phi_flags` instead."""
+    if strict_phi:
+        local = docx_text(data) if is_docx(data) else pdf_text_layer(data)
+        kinds = phi_kinds(local) if local else ()
+        if kinds:
+            raise PHIDetected(kinds)
     transcript, layer = read_document(llm, data)
     if len(_norm(transcript)) < 20:
         raise UnsupportedDocument("I couldn't read any text in that file. Try a clearer photo or a PDF.")
@@ -494,4 +514,5 @@ def build_appeal(llm: TextLLM, retriever: Retriever, data: bytes, eob: bytes | N
         suspicious=bool(injection_lines(transcript) or (layer and injection_lines(layer))),
         verified_against="docx_text" if is_docx(data) else ("pdf_text_layer" if layer else "model_transcript"),
         transcript=transcript,
+        phi_flags=phi_kinds(transcript),
     )
